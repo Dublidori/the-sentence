@@ -1,62 +1,84 @@
-// Importing necessary libraries
-import React, { useState, useEffect } from 'react';
-import {
-    ThemeProvider,
-    createTheme,
-    makeStyles,
-} from '@mui/styles';
-import { alpha } from '@mui/material/styles';
+import React from 'react';
+import { makeStyles, alpha } from '@mui/styles';
 import { Typography, Paper } from '@mui/material';
-import FlippyLetter from './FlippyLetter'; // Make sure to create FlippyLetter.jsx component
 
-// Define styles for the components
+// Define styles for the root and title
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '2em',
+        width: '80%', // make the leaderboard take up 80% of its parent's width
+        padding: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: 'rgba(45, 45, 45, 0.8)',
+        borderRadius: theme.spacing(2),
+        boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.2)',
     },
-    leaderboardItem: {
-        position: 'relative',
-        minWidth: 100,
-        height: 100,
-        margin: 10,
-        lineHeight: '100px',
-        fontSize: 100,
-        fontFamily: 'Monospace',
-        textAlign: 'center',
-        color: theme.palette.primary.main,
-    },
-    playerName: {
-        position: 'relative',
-        height: '50%',
-        width: '100%',
-        backgroundColor: alpha(theme.palette.primary.main, 0.5),
-        borderRadius: '10px 10px 0 0',
-        overflow: 'hidden',
-        zIndex: 0,
-    },
-    playerScore: {
-        position: 'relative',
-        height: '50%',
-        width: '100%',
-        marginTop: '-50%',
-        borderRadius: '10px 10px 10px 10px',
-        zIndex: -1,
-        backgroundColor: theme.palette.background.default,
-        backgroundImage: `linear-gradient(rgba(59, 182, 235, 0), ${alpha(
-            theme.palette.primary.main,
-            0.5
-        )})`,
-        transformOrigin: 'center',
+    leaderboardTitle: {
+        marginBottom: '1em',
     },
 }));
 
+// Styles for each player item
+const usePlayerStyles = makeStyles((theme) => ({
+    leaderboardItem: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: theme.spacing(3),
+        padding: theme.spacing(3),
+        width: 350,  // increased width
+        height: 200, // increased height
+        transition: 'transform 0.5s ease-in-out, opacity 1s ease-in',
+        opacity: 0,
+        transform: 'scale(0.9)',
+        animation: '$fadeIn 1s forwards',
+        '&:hover': {
+            transform: 'scale(1.05)',
+        },
+    },
+    playerName: {
+        fontSize: 24,  // bigger font size
+        fontWeight: 'bold',
+        marginBottom: theme.spacing(1),
+    },
+    playerScore: {
+        fontSize: 22,  // bigger font size
+        color: theme.palette.primary.dark,
+    },
+    '@keyframes fadeIn': {
+        '0%': {
+            opacity: 0,
+            transform: 'scale(0.9)',
+        },
+        '100%': {
+            opacity: 1,
+            transform: 'scale(1)',
+        },
+    },
+}));
+
+
+// Component for each player item
+function PlayerItem({ player, rank }) {
+    const classes = usePlayerStyles({ rank });
+
+    return (
+        <Paper className={classes.leaderboardItem} elevation={3}>
+            <Typography className={classes.playerName}>
+                {rank}. {player.name}
+            </Typography>
+            <Typography className={classes.playerScore}>
+                {player.score} Points
+            </Typography>
+        </Paper>
+    );
+}
+
 // Leaderboard component
 export default function Leaderboard() {
-    // Using styles defined above
     const classes = useStyles();
 
     // Define players data
@@ -66,26 +88,12 @@ export default function Leaderboard() {
         { name: 'Player 3', score: 200 },
     ];
 
-    // Return the leaderboard with player names and scores
     return (
         <div className={classes.root}>
-            <Typography variant="h4">Leaderboard</Typography>
+            <Typography variant="h4" className={classes.leaderboardTitle}>Leaderboard</Typography>
             {players.map((player, index) => (
-                <Paper
-                    key={index}
-                    className={classes.leaderboardItem}
-                    elevation={3}
-                >
-                    <Typography className={classes.playerName}>
-                        {player.name.split('').map((letter, idx) => (
-                            <FlippyLetter key={idx} letter={letter} />
-                        ))}
-                    </Typography>
-                    <Typography className={classes.playerScore}>
-                        Score: {player.score}
-                    </Typography>
-                </Paper>
+                <PlayerItem key={index} player={player} rank={index + 1} />
             ))}
         </div>
     );
-};
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, AppBar, Toolbar } from '@mui/material';
+import { Container, Typography, AppBar, Toolbar, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Leaderboard from './Leaderboard';
 import DonationForm from './DonationForm';
@@ -14,7 +14,8 @@ const useStyles = makeStyles({
     },
     toolbar: {
         display: 'flex',
-        justifyContent: 'space-between',
+        width: '100%',
+        justifyContent: 'center',
     },
 });
 
@@ -27,19 +28,22 @@ export default function Layout() {
     //   }, []);
 
     return (
-        <Container className={classes.root}>
-            <AppBar position="static">
+        <React.Fragment>
+            <AppBar position="static" sx={{ py: 5}}>
                 <Toolbar className={classes.toolbar}>
-                    <Typography variant="h6" color="inherit">
-                        Top Donator's Sentence
-                    </Typography>
-                    <Typography variant="h6" color="inherit">
-                        {topDonation ? topDonation.sentence : 'Loading...'}
-                    </Typography>
+                    <Box>
+                        <Typography variant="h2" color="inherit">
+                            Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
+                            Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
+                            Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
+                        </Typography>
+                    </Box>
                 </Toolbar>
             </AppBar>
-            <DonationForm />
-            <Leaderboard />
-        </Container>
+            <Container className={classes.root}>
+                <DonationForm />
+                <Leaderboard />
+            </Container>
+        </React.Fragment>
     );
 }
