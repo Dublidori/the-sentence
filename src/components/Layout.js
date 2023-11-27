@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, AppBar, Toolbar, Box } from '@mui/material';
+import { Container, Typography, AppBar, Toolbar, Box, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Leaderboard from './Leaderboard';
 import DonationForm from './DonationForm';
+import { Web3Button } from '@web3modal/react';
 
 const useStyles = makeStyles({
     root: {
@@ -31,13 +32,22 @@ export default function Layout() {
         <React.Fragment>
             <AppBar position="static" sx={{ py: 5}}>
                 <Toolbar className={classes.toolbar}>
-                    <Box>
-                        <Typography variant="h2" color="inherit">
-                            Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
-                            Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
-                            Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
-                        </Typography>
-                    </Box>
+                    <Grid container>
+                        <Grid item md={12}>
+                            <Box>
+                                <Web3Button balance='show'/>
+                            </Box>
+                        </Grid>
+                        <Grid item md={12}>
+                            <Box>
+                                <Typography variant="h2" color="inherit">
+                                    Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
+                                    Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
+                                    Let's say i want to have a full ass sentence this big could this actually fit well and doesn't look bad at all? 
+                                </Typography>
+                            </Box>
+                        </Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
             <Container className={classes.root}>
