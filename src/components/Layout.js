@@ -6,13 +6,6 @@ import DonationForm from './DonationForm';
 import { Web3Button } from '@web3modal/react';
 
 const useStyles = makeStyles({
-    root: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-    },
     toolbar: {
         display: 'flex',
         width: '100%',
@@ -50,10 +43,14 @@ export default function Layout() {
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <Container className={classes.root}>
+            <Grid container>
+              <Grid item sm={12}>
                 <DonationForm />
+              </Grid>
+              {/* <Grid item sm={12}>
                 <Leaderboard />
-            </Container>
+              </Grid> */}
+            </Grid>
         </React.Fragment>
     );
 }
